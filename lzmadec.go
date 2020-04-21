@@ -109,7 +109,7 @@ func getEntryLines(scanner *bufio.Scanner) ([]string, error) {
 	if err != nil {
 		return nil, err
 	}
-	if len(res) == 9 || len(res) == 0 {
+	if len(res) == 11 || len(res) == 9 || len(res) == 0 {
 		return res, nil
 	}
 	return nil, errUnexpectedLines
