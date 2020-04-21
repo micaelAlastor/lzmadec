@@ -1,3 +1,3 @@
-module github.com/kjk/lzmadec
+module 	github.com/micaelAlastor/lzmadec
 
 go 1.14
