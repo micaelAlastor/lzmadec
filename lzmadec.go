@@ -44,6 +44,8 @@ type Entry struct {
 	Size       int64
 	PackedSize int // -1 means "size unknown"
 	Modified   time.Time
+	Created    time.Time
+	Accessed   time.Time
 	Attributes string
 	CRC        string
 	Encrypted  string
@@ -70,6 +72,7 @@ func detect7zCached() error {
 }
 
 /*
+9 lines
 ----------
 Path = Badges.xml
 Size = 4065633
@@ -81,6 +84,23 @@ Encrypted = -
 Method = BZip2
 Block = 0
 */
+
+/*
+11 lines
+----------
+Path = gopher.bmp
+Size = 194042
+Packed Size = 63999
+Modified = 2020-04-21 13:40:18
+Created = 2020-04-21 13:40:18
+Accessed = 2020-04-21 13:48:33
+Attributes = A_ -rwxrwxrwx
+CRC = 3CE0263D
+Encrypted = -
+Method = LZMA:23
+Block = 0
+*/
+
 func advanceToFirstEntry(scanner *bufio.Scanner) error {
 	for scanner.Scan() {
 		s := scanner.Text()
@@ -140,6 +160,10 @@ func parseEntryLines(lines []string) (Entry, error) {
 			}
 		case "modified":
 			e.Modified, _ = time.Parse(timeLayout, v)
+		case "created":
+			e.Created, _ = time.Parse(timeLayout, v)
+		case "accessed":
+			e.Accessed, _ = time.Parse(timeLayout, v)
 		case "attributes":
 			e.Attributes = v
 		case "crc":
